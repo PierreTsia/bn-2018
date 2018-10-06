@@ -35,20 +35,21 @@ export default {
 </script>
 
 <style lang="stylus">
+$app-blue = #B8E6FF
 nav
   height 75px
-  background-color #B8E6FF
+  background-color $app-blue
   .collapsible>button
-    background #B8E6FF
+    background $app-blue
   .collapsible
-    background #B8E6FF
+    background $app-blue
     .collapsible-body
       position absolute
       top 73px
       left 0px
       width 20vw
       height 100vh  
-      background #B8E6FF
+      background $app-blue
       border 2px solid #41403e !important
       padding 10px !important
   .nav__links

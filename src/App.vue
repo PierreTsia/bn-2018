@@ -14,16 +14,18 @@ export default {
 </script>
 
 
-<style>
-#app {
+<style lang='stylus'>
+$app-blue = #B8E6FF
+#app 
   font-family: "Neucha", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-#nav {
-  height: 75px;
-}
+
+body
+  background rgba($app-blue 0.2)
+
+
 </style>

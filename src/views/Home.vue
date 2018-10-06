@@ -1,13 +1,16 @@
 <template>
   <div class="home">
-    <div class="homeScreen row">
-       <div class="homeScreen__login col md-6 sm-12">
-        <Login></Login>
-      </div>
-      <div class="homeSCreen__signup col md-6 sm-12">
-        <Signup></Signup>
-      </div>
+    <div class="container">
+       <div class="homeScreen row border">
+          <div class="homeScreen__login col md-6 sm-12">
+            <Login></Login>
+          </div>
+          <div class="homeScreen__signup col md-6 sm-12">
+            <Signup></Signup>
+          </div>
+        </div>
     </div>
+   
   </div>
 </template>
 
@@ -28,8 +31,19 @@ export default {
 </script>
 <style lang="stylus">
 .home
+  margin-top 75px
+  min-height calc(100vh - 75px)
+  display flex
+  flex-direction column
+  justify-content center
+  align-items center
+  .container
+    max-width 1200px
+   
   .homeScreen
-    margin-top 50px
-    border 1px solid green
     height 50vh
+    width 100%
+    background white
+    
+    
 </style>
