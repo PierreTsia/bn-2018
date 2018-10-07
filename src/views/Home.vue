@@ -2,6 +2,9 @@
   <div class="home">
 
        <div class="homeScreen">
+         <div v-if="!userIsAuth" class="homeScreen__loginAndSignup">
+
+       
           <div v-if="isActive('login')" class="homeScreen__login">
             <Login>
               <div class="homeScreen__toggleLinks" slot="link">
@@ -20,6 +23,17 @@
             </Signup>
           </div> 
         </div>
+        <div v-else>
+          POUET
+        </div>
+
+        
+
+
+
+      </div>
+
+    
     
    
   </div>
@@ -30,6 +44,8 @@
 import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Navbar from "@/components/Navbar.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "home",
@@ -49,6 +65,24 @@ export default {
     },
     setActiveComponent(component) {
       this.activeComponent = component;
+    },
+  },
+  computed: {
+    ...mapGetters({ currentUser: "currentUser" }),
+    userIsAuth() {
+      return this.currentUser;
+    },
+  },
+  watch: {
+    currentUser: {
+      immediate: true,
+      handler(user) {
+        if (user) {
+          console.log("loggedIn as", user.email);
+        } else if (!user) {
+          console.log("no user");
+        }
+      },
     },
   },
 };

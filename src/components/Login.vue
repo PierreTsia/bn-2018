@@ -30,17 +30,17 @@
         <div class="login__content--email">
             <div class="form-group row container">
               <div class="col md-5 sm-12">
-                <BaseInput :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
+                <BaseInput ref="login_email" :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
               </div>
               <div class="col md-5 sm-12">
-                <BaseInput :label="'Password'" :placeholder="'password'" :type="'password'"/>
+                <BaseInput ref="login_password" :label="'Password'" :placeholder="'password'" :type="'password'"/>
               </div>
             </div>
         </div>
       </div>
 
       <div class="login__footer">
-          <button class="btn btn-large btn-primary">
+          <button @click="handleEmailLoginClick" class="btn btn-large btn-primary">
             Submit
           </button>
           <slot name="link">hjhk</slot>
@@ -55,6 +55,8 @@ import IconGoogle from "@/components/base/icons/google.vue";
 import IconGithub from "@/components/base/icons/github.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
 
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   props: {},
@@ -63,6 +65,18 @@ export default {
     IconGoogle,
     IconGithub,
     BaseInput,
+  },
+  methods: {
+    ...mapActions({
+      loginWithEmailAndPassword: "loginWithEmailAndPassword",
+    }),
+    handleEmailLoginClick() {
+      const email = this.$refs.login_email.$el.firstChild.value;
+      const password = this.$refs.login_password.$el.firstChild.value;
+      console.log(email);
+      console.log(password);
+      this.loginWithEmailAndPassword({ email, password });
+    },
   },
 };
 </script>

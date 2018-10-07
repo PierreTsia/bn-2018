@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "firebase": "^5.5.3",
     "papercss": "^1.5.4",
     "punycode": "^2.1.1",
     "stylus": "^0.54.5",

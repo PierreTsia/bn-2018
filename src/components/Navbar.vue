@@ -3,7 +3,6 @@
     <div class="nav-brand col-3">
       <h4><a href="#">Get PaperCSS</a></h4>
     </div>
-  
     <div class="collapsible">
       <input id="collapsible2" type="checkbox" name="collapsible2">
       <button>
@@ -15,30 +14,52 @@
       </button>
       <div class="collapsible-body border">
         <ul class="inline">
-          <li v-for="link in guestLinks" :key="link.key">
+          <li v-if="!userIsAuth" v-for="link in guestLinks" :key="link.key">
              <router-link 
               :to="link.route">
               {{link.label}}
             </router-link>
           </li>
-         
+          <li v-else v-for="link in authLinks" :key="link.key">
+            <router-link 
+              :to="link.route">
+              {{link.label}}
+            </router-link>
+       
+          </li>
+
         </ul>
       </div>
     </div>
-      <div class="nav__links col-">
-        
+    <div class="nav__links col-">
       <router-link 
+        v-if="!userIsAuth"
         v-for="link in guestLinks" 
         class="link" 
         :to="link.route" 
         :key="link.key">
         {{link.label}}
       </router-link>
+
+      <router-link 
+        v-if="userIsAuth"
+        v-for="link in authLinks" 
+        class="link" 
+        :to="link.route" 
+        :key="link.key">
+        {{link.label}}
+      </router-link>
+
+            
+      <a v-if="userIsAuth" @click="handleLogOutClick">
+        Log Out
+      </a>
     </div>
   </nav>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Navbar",
   data() {
@@ -47,7 +68,23 @@ export default {
         { label: "About", route: "/about", key: "about" },
         { label: "Home", route: "/", key: "home" },
       ],
+      authLinks: [
+        { label: "Profile", route: "/about", key: "profile" },
+        { label: "Play", route: "/about", key: "play" },
+      ],
     };
+  },
+  methods: {
+    ...mapActions({ logOutUser: "logOutUser" }),
+    handleLogOutClick() {
+      this.logOutUser();
+    },
+  },
+  computed: {
+    ...mapGetters({ currentUser: "currentUser" }),
+    userIsAuth() {
+      return this.currentUser;
+    },
   },
 };
 </script>
@@ -87,8 +124,6 @@ nav
       padding 10px !important
       @media screen and (min-width 770 px)
         display  none 
-        
-      
   .nav__links
     display flex
     border 1px solid red

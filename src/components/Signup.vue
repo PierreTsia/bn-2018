@@ -30,20 +30,20 @@
         <div class="signup__content--email">
             <div class="form-group row container">
               <div class="col md-12 sm-12">
-                <BaseInput :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
+                <BaseInput ref="signup_email" :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
               </div>
               <div class="col md-6 sm-12">
-                <BaseInput :label="'password'" :placeholder="'password'" :type="'password'"/>
+                <BaseInput  ref="signup_password" :label="'password'" :placeholder="'password'" :type="'password'"/>
               </div>
                <div class="col md-6 sm-12">
-                <BaseInput :label="'confirm password'" :placeholder="'confirm password'" :type="'password'"/>
+                <BaseInput ref="signup_password2" :label="'confirm password'" :placeholder="'confirm password'" :type="'password'"/>
               </div>
             </div>
         </div>
       </div>
 
       <div class="signup__footer">
-          <button class="btn btn-large btn-primary">
+          <button @click="handleEmailSignup" class="btn btn-large btn-primary">
             Submit
           </button>
           <slot name="signuplink"></slot>
@@ -57,6 +57,7 @@ import IconFacebook from "@/components/base/icons/facebook.vue";
 import IconGoogle from "@/components/base/icons/google.vue";
 import IconGithub from "@/components/base/icons/github.vue";
 import BaseInput from "@/components/base/BaseInput.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "Signup",
@@ -66,6 +67,22 @@ export default {
     IconGoogle,
     IconGithub,
     BaseInput,
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    ...mapActions({
+      registerWithEmailAndPassword: "registerWithEmailAndPassword",
+    }),
+    handleEmailSignup() {
+      const email = this.$refs.signup_email.$el.firstChild.value;
+      const password = this.$refs.signup_password.$el.firstChild.value;
+      const password2 = this.$refs.signup_password2.$el.firstChild.value;
+
+      const payload = { email, password, password2 };
+      this.registerWithEmailAndPassword(payload);
+    },
   },
 };
 </script>
