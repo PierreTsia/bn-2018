@@ -1,46 +1,157 @@
 <template>
-
-
-    <div class="signup card" style="width: 25rem;">
-      <div class="card-body">
-        <h4 class="card-title">Sign up</h4>
-        <h5 class="card-subtitle">Nice looking subtitle.</h5>
-        <p class="card-text">Notice that the card width in this example have been set to 20rem, otherwise it will try to fill the current container/row where the card is.</p>
-        <button>Let me go here!</button>
+  <div class="signup border">
+      <div class="signup__header">
+        <span class="title">Signup</span>
+        <p>You can signup with one of your usual account</p>
       </div>
-    </div>
 
+      <div class="signup__content">
+        <div class="signup__content--socials">
+            <button class="col-3 btn btn-danger">
+              Google<IconGoogle class="icon-normal icon-default icon-white"/>
+            </button>
+
+            <button class="col-3 btn btn-secondary">
+              Facebook <IconFacebook class="icon icon-normal icon-inform"/>
+            </button>
+
+            <button class="col-3 btn btn-primary">
+              Github <IconGithub class="icon icon-normal icon-default icon-white"/>
+            </button>
+        </div>
+
+
+        <div class="signup__content--separator">
+          <span>
+              ...or use your email and password
+          </span>
+        </div>
+
+        <div class="signup__content--email">
+            <div class="form-group row container">
+              <div class="col md-12 sm-12">
+                <BaseInput :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
+              </div>
+              <div class="col md-6 sm-12">
+                <BaseInput :label="'password'" :placeholder="'password'" :type="'password'"/>
+              </div>
+               <div class="col md-6 sm-12">
+                <BaseInput :label="'confirm password'" :placeholder="'confirm password'" :type="'password'"/>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="signup__footer">
+          <button class="btn btn-large btn-primary">
+            Submit
+          </button>
+          <slot name="signuplink"></slot>
+      </div>
+  </div>
   
 </template>
 
 <script>
+import IconFacebook from "@/components/base/icons/facebook.vue";
+import IconGoogle from "@/components/base/icons/google.vue";
+import IconGithub from "@/components/base/icons/github.vue";
+import BaseInput from "@/components/base/BaseInput.vue";
+
 export default {
   name: "Signup",
   props: {},
+  components: {
+    IconFacebook,
+    IconGoogle,
+    IconGithub,
+    BaseInput,
+  },
 };
 </script>
 
 <style lang="stylus">
 
+@import "../style/index.styl"
 .signup
-  border 1px solid red
-  height 100%
   display flex
   flex-direction column
-  justify-content space-around
-  align-items center
-  .card-body
-    margin-top 80px
-    flex-direction column !important
-    justify-content flex-end !important 
-    .card-title
-      font-size 55px
-      button 
-        margin-top 20px
+  justify-content space-between
+  background white
+  .signup__header
+    height 100px
+    .title
+      display block
+      font-size 50px
+      margin-top 20px
+    p
+      margin 0
+      padding 0
+  .signup__content
+    flex-grow 1
+    display flex
+    flex-direction column
+    .signup__content--socials
+        display flex
+        padding 20px 0px
+        justify-content space-around
+        align-items center
+        height 200px
+        .btn
+          width 90px
+          height 60px
+          display flex
+          justify-content center
+          align-items center
+          .icon
+            width 25px
+            margin-left 5px 
+        .btn-secondary
+          border-color $app-darkblue
+          color $app-darkblue
+        .btn-danger
+          border-color $app-darkred
+          color white
+    .signup__content--separator
+      margin-top 10px
+      position: relative;
+      z-index: 1;
     
-
-
-
+      &:before 
+        border-top: 2px solid $app-grey;
+        content:"";
+        margin: 0 auto; /* this centers the line to the full width specified */
+        position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
+        top: 50%; left: 0; right: 0; bottom: 0;
+        width: 60%;
+        z-index: -1;
+      span 
+        /* to hide the lines from behind the text, you have to set the background color the same as the container */ 
+        background: #fff; 
+        padding: 0 15px; 
+    
+    .signup__content--email
+      flex-grow 1
+      min-height 170px
+      .form-group
+        display flex
+        height 100%
+        align-items center
+        justify-content space-around
+        padding 20px 20px
+      
+    
+  .signup__footer
+    display flex
+    flex-direction  column
+    justify-content center
+    align-items center
+    padding 20px
+    .btn
+      height 100px
+      width 30%
+      font-size 25px
+      vertical-align center
 
 
 </style>

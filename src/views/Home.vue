@@ -2,12 +2,23 @@
   <div class="home">
 
        <div class="homeScreen">
-          <div class="homeScreen__login">
-            <Login></Login>
+          <div v-if="isActive('login')" class="homeScreen__login">
+            <Login>
+              <div class="homeScreen__toggleLinks" slot="link">
+                <span>Don't have an account yet ?</span>
+                <span @click="setActiveComponent('signup')" class="toggleLink"> Go to Sign-Up page</span>
+              </div>
+            </Login>
           </div>
-          <!-- <div class="homeScreen__signup col md-6 sm-12">
-            <Signup></Signup>
-          </div> -->
+
+          <div v-if="isActive('signup')" class="homeScreen__signup">
+            <Signup>
+              <div class="homeScreen__toggleLinks" slot="signuplink">
+                <span>Already have an account ?</span>
+                <span @click="setActiveComponent('login')" class="toggleLink"> Go to Login page</span>
+              </div>
+            </Signup>
+          </div> 
         </div>
     
    
@@ -27,9 +38,24 @@ export default {
     Signup,
     Navbar,
   },
+  data() {
+    return {
+      activeComponent: "login",
+    };
+  },
+  methods: {
+    isActive(component) {
+      return component === this.activeComponent;
+    },
+    setActiveComponent(component) {
+      this.activeComponent = component;
+    },
+  },
 };
 </script>
 <style lang="stylus">
+@import "../style/index.styl"
+
 .home
   margin-top 75px
   min-height calc(100vh - 75px)
@@ -41,8 +67,24 @@ export default {
     height 50vh
     width 100%
     max-width 900px
-    .homeScreen__login
-      width 100%
+    .homeScreen__login, .homeScreen__signup
+      width 90%
+      margin auto
+      .homeScreen__toggleLinks
+        margin-top 10px
+        color $app-darkblue
+        display block
+        width 100%
+        padding 20px
+        .toggleLink
+          display block
+          box-sizing border-box
+          font-size 25px
+          padding 5px
+          color $app-grey
+          cursor pointer 
+          &:hover
+            color $app-salmon
    
     
 </style>

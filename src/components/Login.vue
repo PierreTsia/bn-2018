@@ -30,29 +30,21 @@
         <div class="login__content--email">
             <div class="form-group row container">
               <div class="col md-5 sm-12">
-                <BaseInput :label="'Email'" :placeholder="'john@doe.com'"/>
+                <BaseInput :label="'Email'" :placeholder="'john@doe.com'" :type="'email'"/>
               </div>
               <div class="col md-5 sm-12">
-                <BaseInput :label="'Email'" :placeholder="'john@doe.com'"/>
+                <BaseInput :label="'Password'" :placeholder="'password'" :type="'password'"/>
               </div>
             </div>
-        
         </div>
-
-
       </div>
 
-
-    
-
       <div class="login__footer">
-      
           <button class="btn btn-large btn-primary">
             Submit
           </button>
-
+          <slot name="link">hjhk</slot>
       </div>
-      
   </div>
   
 </template>

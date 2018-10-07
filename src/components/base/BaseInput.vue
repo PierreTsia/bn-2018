@@ -1,6 +1,6 @@
 <template>
   <div class="Input">
-    <input type="text" id="input" class="Input-text" :placeholder="placeholder">
+    <input :type="type" class="Input-text" :placeholder="placeholder">
     <label for="input" class="Input-label">{{label}}</label>
 </div>
   
@@ -16,6 +16,10 @@ export default {
     placeholder: {
       type: String,
       default: "Placeholder",
+    },
+    type: {
+      type: String,
+      default: "text",
     },
   },
 };
