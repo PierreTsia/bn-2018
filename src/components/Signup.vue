@@ -1,12 +1,15 @@
 <template>
-  <div class="signup container">
-    <div class="row">
-      <div class="signup__card col sm-12 md-12">
-        Signup
+
+
+    <div class="signup card" style="width: 25rem;">
+      <div class="card-body">
+        <h4 class="card-title">Sign up</h4>
+        <h5 class="card-subtitle">Nice looking subtitle.</h5>
+        <p class="card-text">Notice that the card width in this example have been set to 20rem, otherwise it will try to fill the current container/row where the card is.</p>
+        <button>Let me go here!</button>
       </div>
-   
     </div>
-  </div>
+
   
 </template>
 
@@ -18,8 +21,26 @@ export default {
 </script>
 
 <style lang="stylus">
+
 .signup
-  .signup__card
-    border 1px solid red
+  border 1px solid red
+  height 100%
+  display flex
+  flex-direction column
+  justify-content space-around
+  align-items center
+  .card-body
+    margin-top 80px
+    flex-direction column !important
+    justify-content flex-end !important 
+    .card-title
+      font-size 55px
+      button 
+        margin-top 20px
+    
+
+
+
+
 
 </style>

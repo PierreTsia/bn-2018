@@ -1,15 +1,15 @@
 <template>
   <div class="home">
-    <div class="container">
-       <div class="homeScreen row border">
-          <div class="homeScreen__login col md-6 sm-12">
+
+       <div class="homeScreen">
+          <div class="homeScreen__login">
             <Login></Login>
           </div>
-          <div class="homeScreen__signup col md-6 sm-12">
+          <!-- <div class="homeScreen__signup col md-6 sm-12">
             <Signup></Signup>
-          </div>
+          </div> -->
         </div>
-    </div>
+    
    
   </div>
 </template>
@@ -37,13 +37,12 @@ export default {
   flex-direction column
   justify-content center
   align-items center
-  .container
-    max-width 1200px
-   
   .homeScreen
     height 50vh
     width 100%
-    background white
-    
+    max-width 900px
+    .homeScreen__login
+      width 100%
+   
     
 </style>

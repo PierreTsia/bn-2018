@@ -15,7 +15,8 @@ export default {
 
 
 <style lang='stylus'>
-$app-blue = #B8E6FF
+@import "./style/index.styl"
+
 #app 
   font-family: "Neucha", sans-serif;
   -webkit-font-smoothing: antialiased;
