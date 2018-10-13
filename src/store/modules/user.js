@@ -1,16 +1,36 @@
 import * as firebase from "firebase";
 import * as types from "../mutation-types";
+import db from "../../db";
+import SanitizeHelper from "../../helpers/sanitizeHelper";
+
 const state = {
   user: null,
-  test: ["1", "3", "pouet"],
+  profile: null,
 };
 
 const getters = {
   currentUser: state => state.user,
+  userProfile: state => state.profile,
 };
 
 const actions = {
-  registerWithEmailAndPassword({ commit }, payload) {
+  getUserProfile({ commit, dispatch }, profileId) {
+    const profilesRef = db.collection("profiles");
+    const query = profilesRef.where("userId", "==", profileId);
+    query
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          commit(types.SET_USER_PROFILE, { id: doc.id, ...doc.data() });
+        });
+      })
+      .catch(function(error) {
+        console.log("Error getting documents: ", error);
+      });
+  },
+  registerWithEmailAndPassword({ commit, dispatch }, payload) {
     const newUser = {
       email: payload.email,
       password: payload.password,
@@ -27,12 +47,27 @@ const actions = {
           name: auth.user.displayName,
           photoUrl: auth.photoUrl,
         };
+
+        const profileData = {
+          userId: auth.user.uid,
+          displayName: auth.user.displayName
+            ? auth.user.displayName
+            : SanitizeHelper.getNamefromEmail(auth.user.email),
+          photoUrl: auth.photoUrl
+            ? auth.photoUrl
+            : "http://www.erickdyck.de/demo/dashboard/images/profile.gif",
+          registrationDate: new Date(),
+          lastOnline: new Date(),
+        };
+
+        dispatch("createProfile", profileData, { root: true });
+
         commit(types.SET_CURRENT_USER, newUser);
       })
       .catch(err => console.log(err));
   },
 
-  loginWithEmailAndPassword({ commit }, payload) {
+  loginWithEmailAndPassword({ commit, dispatch }, payload) {
     firebase
       .auth()
       .signInWithEmailAndPassword(payload.email, payload.password)
@@ -43,7 +78,8 @@ const actions = {
           displayName: auth.user.displayName,
           photoUrl: auth.user.photoURL,
         };
-        console.log(loggedUser);
+        dispatch("getUserProfile", loggedUser.id);
+
         commit(types.SET_CURRENT_USER, loggedUser);
       });
   },
@@ -56,6 +92,10 @@ const actions = {
       photoUrl: payload.photoURL,
     };
     commit(types.SET_CURRENT_USER, user);
+    const profilesRef = db.collection("profiles");
+
+    const query = profilesRef.where("userId", "==", payload.uid);
+    console.log(query);
   },
 
   logOutUser({ commit }) {
@@ -66,8 +106,10 @@ const actions = {
 
 const mutations = {
   [types.SET_CURRENT_USER](state, user) {
-    console.log(user);
     state.user = user;
+  },
+  [types.SET_USER_PROFILE](state, profile) {
+    state.profile = profile;
   },
 };
 

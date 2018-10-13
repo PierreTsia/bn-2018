@@ -24,7 +24,8 @@
           </div> 
         </div>
         <div v-else>
-          POUET
+          <Dashboard v-if="userProfile" :profile="userProfile"></Dashboard>
+          <span v-else>loading</span><!-- TODO LOADING STATE AND COMPONENT -->
         </div>
 
         
@@ -44,8 +45,9 @@
 import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Navbar from "@/components/Navbar.vue";
+import Dashboard from "@/components/dashboard/Dashboard.vue";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "home",
@@ -53,6 +55,7 @@ export default {
     Login,
     Signup,
     Navbar,
+    Dashboard,
   },
   data() {
     return {
@@ -60,6 +63,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions({ addProfile: "addProfile", fetchProfiles: "fetchProfiles" }),
     isActive(component) {
       return component === this.activeComponent;
     },
@@ -68,19 +72,23 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ currentUser: "currentUser" }),
+    ...mapGetters({
+      currentUser: "currentUser",
+      userProfile: "userProfile",
+    }),
     userIsAuth() {
       return this.currentUser;
     },
+  },
+  mounted() {
+    this.fetchProfiles();
   },
   watch: {
     currentUser: {
       immediate: true,
       handler(user) {
         if (user) {
-          console.log("loggedIn as", user.email);
         } else if (!user) {
-          console.log("no user");
         }
       },
     },
@@ -91,11 +99,10 @@ export default {
 @import "../style/index.styl"
 
 .home
-  margin-top 75px
+  margin-top 155px
   min-height calc(100vh - 75px)
   display flex
   flex-direction column
-  justify-content center
   align-items center
   .homeScreen
     height 50vh
