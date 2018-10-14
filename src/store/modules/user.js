@@ -30,19 +30,107 @@ const actions = {
         console.log("Error getting documents: ", error);
       });
   },
+  signUpWithGithub(){
+    const provider = new firebase.auth.GithubAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(auth => {
+        console.log(auth.user);
+        const { displayName, photoURL, uid, email } = auth.user;
+        const user = {
+          displayName,
+          photoUrl: photoURL,
+          userId: uid,
+          email,
+          lastOnline: new Date(),
+        };
+        //commit current user
+        commit(types.SET_CURRENT_USER, user);
+        db.collection("profiles")
+          .where("userId", "==", user.userId)
+          .get()
+          .then(querySnapshot => {
+            if (querySnapshot.empty) {
+              dispatch(
+                "createProfile",
+                { ...user, registrationDate: new Date() },
+                { root: true },
+              );
+            } else {
+              dispatch("getUserProfile", user.userId);
+            }
+          });
+      });
+    
+  },
+  signUpWithGoogle({ commit, dispatch }) {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(auth => {
+        console.log(auth.user);
+        const { displayName, photoURL, uid, email } = auth.user;
+        const user = {
+          displayName,
+          photoUrl: photoURL,
+          userId: uid,
+          email,
+          lastOnline: new Date(),
+        };
+        //commit current user
+        commit(types.SET_CURRENT_USER, user);
+        db.collection("profiles")
+          .where("userId", "==", user.userId)
+          .get()
+          .then(querySnapshot => {
+            if (querySnapshot.empty) {
+              dispatch(
+                "createProfile",
+                { ...user, registrationDate: new Date() },
+                { root: true },
+              );
+            } else {
+              dispatch("getUserProfile", user.userId);
+            }
+          });
+      });
+  },
 
-  signUpWithFacebook({ commit }) {
+  signUpWithFacebook({ commit, dispatch }) {
     const provider = new firebase.auth.FacebookAuthProvider();
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then(function(result) {
-        console.log(result);
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const token = result.credential.accessToken;
+      .then(auth => {
         // The signed-in user info.
-        const user = result.user;
-        // ...
+        const { displayName, photoURL, uid, email } = auth.user;
+        const user = {
+          displayName,
+          photoUrl: photoURL,
+          userId: uid,
+          email,
+          lastOnline: new Date(),
+        };
+        //commit current user
+        commit(types.SET_CURRENT_USER, user);
+
+        //check if profile already exists with this userId
+        db.collection("profiles")
+          .where("userId", "==", user.userId)
+          .get()
+          .then(querySnapshot => {
+            if (querySnapshot.empty) {
+              dispatch(
+                "createProfile",
+                { ...user, registrationDate: new Date() },
+                { root: true },
+              );
+            } else {
+              dispatch("getUserProfile", user.userId);
+            }
+          });
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -54,7 +142,6 @@ const actions = {
         const credential = error.credential;
         // ...
       });
-    console.log("provider");
   },
   registerWithEmailAndPassword({ commit, dispatch }, payload) {
     const newUser = {
@@ -68,14 +155,12 @@ const actions = {
       .createUserWithEmailAndPassword(newUser.email, newUser.password)
       .then(auth => {
         const newUser = {
-          email: auth.user.email,
           id: auth.user.uid,
-          name: auth.user.displayName,
-          photoUrl: auth.photoUrl,
         };
 
         const profileData = {
           userId: auth.user.uid,
+          email: auth.user.email,
           displayName: auth.user.displayName
             ? auth.user.displayName
             : SanitizeHelper.getNamefromEmail(auth.user.email),

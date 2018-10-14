@@ -7,15 +7,15 @@
 
       <div class="login__content">
         <div class="login__content--socials">
-            <button class="col-3 btn btn-danger">
+            <button @click="handleSocialProviderClick('google')" class="col-3 btn btn-danger">
               Google<IconGoogle class="icon-normal icon-default icon-white"/>
             </button>
 
-            <button class="col-3 btn btn-secondary">
+            <button @click="handleSocialProviderClick('facebook')" class="col-3 btn btn-secondary">
               Facebook <IconFacebook class="icon icon-normal icon-inform"/>
             </button>
 
-            <button class="col-3 btn btn-primary">
+            <button @click="handleSocialProviderClick('github')" class="col-3 btn btn-primary">
               Github <IconGithub class="icon icon-normal icon-default icon-white"/>
             </button>
         </div>
@@ -69,6 +69,9 @@ export default {
   methods: {
     ...mapActions({
       loginWithEmailAndPassword: "loginWithEmailAndPassword",
+      signUpWithFaceBook: "signUpWithFacebook",
+      signUpWithGoogle: "signUpWithGoogle",
+      signUpWithGithub: "signUpWithGithub",
     }),
     handleEmailLoginClick() {
       const email = this.$refs.login_email.$el.firstChild.value;
@@ -76,6 +79,19 @@ export default {
       console.log(email);
       console.log(password);
       this.loginWithEmailAndPassword({ email, password });
+    },
+    handleSocialProviderClick(provider) {
+      switch (provider) {
+        case "facebook": {
+          this.signUpWithFaceBook();
+        }
+        case "google": {
+          this.signUpWithGoogle();
+        }
+        case "github": {
+          this.signUpWithGithub();
+        }
+      }
     },
   },
 };

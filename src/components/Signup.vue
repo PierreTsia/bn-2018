@@ -7,7 +7,7 @@
 
       <div class="signup__content">
         <div class="signup__content--socials">
-            <button class="col-3 btn btn-danger">
+            <button @click="handleSocialProviderClick('google')" class="col-3 btn btn-danger">
               Google<IconGoogle class="icon-normal icon-default icon-white"/>
             </button>
 
@@ -15,7 +15,7 @@
               Facebook <IconFacebook class="icon icon-normal icon-inform"/>
             </button>
 
-            <button class="col-3 btn btn-primary">
+            <button @click="handleSocialProviderClick('github')" class="col-3 btn btn-primary">
               Github <IconGithub class="icon icon-normal icon-default icon-white"/>
             </button>
         </div>
@@ -75,6 +75,8 @@ export default {
     ...mapActions({
       registerWithEmailAndPassword: "registerWithEmailAndPassword",
       signUpWithFaceBook: "signUpWithFacebook",
+      signUpWithGoogle: "signUpWithGoogle",
+      signUpWithGithub: "signUpWithGithub",
     }),
     handleEmailSignup() {
       const email = this.$refs.signup_email.$el.firstChild.value;
@@ -88,6 +90,12 @@ export default {
       switch (provider) {
         case "facebook": {
           this.signUpWithFaceBook();
+        }
+        case "google": {
+          this.signUpWithGoogle();
+        }
+        case 'github':{
+          this.signUpWithGithub()
         }
       }
     },

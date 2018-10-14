@@ -26,6 +26,7 @@ const actions = {
   },
 
   createProfile({ commit }, payload) {
+    console.log(payload);
     db.collection("profiles").add(payload);
     commit(types.SET_USER_PROFILE, payload);
   },
