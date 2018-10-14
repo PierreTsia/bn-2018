@@ -90,12 +90,15 @@ export default {
       switch (provider) {
         case "facebook": {
           this.signUpWithFaceBook();
+          break;
         }
         case "google": {
           this.signUpWithGoogle();
+          break;
         }
-        case 'github':{
-          this.signUpWithGithub()
+        case "github": {
+          this.signUpWithGithub();
+          break;
         }
       }
     },
