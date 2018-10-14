@@ -1,6 +1,6 @@
 <template>
-    <Icon class="icon icon-google">
-      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 92.837 92.837"  style="enable-background:new 0 0 92.837 92.837" xml:space="preserve">
+    <Icon class="icon icon-google" viewBox="0 0 92.837 92.837"  style="enable-background:new 0 0 92.837 92.837" xml:space="preserve">
+     
         <g>
           <g>
             <path d="M53.657,25.726c-1.522-10.824-10.559-14.68-18.508-14.68c-0.942,0-1.904,0.052-2.824,0.151
@@ -78,7 +78,6 @@
         </g>
         <g>
         </g>
-        </svg>
 
             
 

@@ -1,11 +1,23 @@
 <template>
  <div class=" dashboardMenuTabs">
   <div class="row tabsMenu">
-    <span @click="setACtiveComponent(item.slug)" class="item" v-for="item in menuItems" :key="item.slug">{{item.label}}</span>
+    <span 
+    @click="setACtiveComponent(item.slug)" 
+    :class="{
+      'item': true,
+      'border': currentTabComponent === item.slug,
+      '--isActive':currentTabComponent === item.slug }" 
+      v-for="item in menuItems" :key="item.slug">
+        <IconChat v-if="item.slug === 'ChatRoom'" class="icon icon-medium"/>
+        <IconUsers v-if="item.slug === 'UsersBoard'" class="icon icon-medium"/>
+        <IconTrophy v-if="item.slug === 'UserStats'" class="icon icon-medium"/>
+                
+      </span>
   </div>
   <div class="row tabsContent">
-    <component :is="currentTabComponent"></component>
-
+    <keep-alive>
+      <component :is="currentTabComponent"></component>
+    </keep-alive>
   </div>
   
  </div>
@@ -14,6 +26,9 @@
 import ChatRoom from "@/components/ChatRoom.vue";
 import UsersBoard from "@/components/UsersBoard.vue";
 import UserStats from "@/components/UserStats.vue";
+import IconChat from "@/components/base/icons/chat.vue";
+import IconUsers from "@/components/base/icons/users.vue";
+import IconTrophy from "@/components/base/icons/trophy.vue";
 
 export default {
   name: "DashBoardMenuTabs",
@@ -21,6 +36,9 @@ export default {
     ChatRoom,
     UsersBoard,
     UserStats,
+    IconChat,
+    IconUsers,
+    IconTrophy,
   },
   data() {
     return {
@@ -37,13 +55,17 @@ export default {
       this.currentTabComponent = component;
     },
   },
+  computed: {},
+  destroyed() {
+    console.log("destroy");
+  },
 };
 </script>
 <style lang="stylus" scoped>
+@import "../../style/index.styl"
+
   .dashboardMenuTabs
     width 100%
-    border 1px solid green 
-    height 500px
     margin-top 20px
     background white
     display flex
@@ -52,19 +74,16 @@ export default {
     margin 0
     .tabsContent
       flex-grow 1
-      border 1px solid coral
       width 100%
       padding 0
       margin 0
     .tabsMenu
-      border 1px solid pink
-      height 10%
+      height 50px
       display flex
       justify-content flex-start
       padding 0
       margin 0
       .item
-        border 1px solid cyan
         margin 0
         width 150px
         display flex
@@ -72,4 +91,7 @@ export default {
         justify-content center
         align-items center
         cursor pointer
+      .--isActive
+        border 2px solid #0071DD
+        background-color rgba($app-blue, 0.5) 
 </style>

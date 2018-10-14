@@ -21,6 +21,9 @@ export default {
 .icon-normal
   height 25px
   height 25px
+.icon-medium
+  width 35px
+  height 35px
 .icon-big
   height 50px
   width 50px

@@ -1,11 +1,8 @@
 <template>
-    <Icon class="icon icon-facebook">
+    <Icon class="icon icon-facebook" viewBox="0 0 465.981 465.981" style="enable-background:new 0 0 465.981 465.981;"
+        xml:space="preserve">
       <!-- viewBox="0 0 20 20" -->
             
-
-      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-          viewBox="0 0 465.981 465.981" style="enable-background:new 0 0 465.981 465.981;"
-        xml:space="preserve">
         <g>
           <g>
             <path d="M445.911,19.65c3.529-7.487-0.127-18.756-11.024-19.025C313.274-2.437,155.918,6.993,34.311,2.332
@@ -61,7 +58,6 @@
         </g>
         <g>
         </g>
-      </svg>
     </Icon>
 
 

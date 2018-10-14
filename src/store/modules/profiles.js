@@ -7,6 +7,10 @@ const state = {
   profiles: [],
 };
 
+const getters = {
+  allProfiles: state => state.profiles,
+};
+
 const actions = {
   addProfile({ commit }) {
     db.collection("profiles").add({
@@ -34,12 +38,12 @@ const actions = {
 
 const mutations = {
   [types.SET_PROFILES](state, profiles) {
-    state.profiles = _.concat(state.profiles, profiles);
+    state.profiles = _.merge(state.profiles, profiles);
   },
 };
 export default {
   state,
   actions,
-  //getters,
+  getters,
   mutations,
 };

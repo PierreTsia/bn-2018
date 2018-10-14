@@ -1,8 +1,7 @@
 <template>
-    <Icon class="icon icon-github">
-    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	  viewBox="0 0 506.478 506.478" style="enable-background:new 0 0 506.478 506.478;"
+    <Icon class="icon icon-github"  viewBox="0 0 506.478 506.478" style="enable-background:new 0 0 506.478 506.478;"
 	  xml:space="preserve">
+
     <g>
       <g>
         <path d="M418.104,7.473c-1.549-4.773-5.865-7.63-10.893-7.312c-1.127-0.185-2.305-0.229-3.58-0.03
@@ -100,11 +99,7 @@
 </g>
 <g>
 </g>
-</svg>
-
-            
-
-    </Icon>
+</Icon>
 
 
 
