@@ -37,6 +37,7 @@ const actions = {
       .auth()
       .signInWithPopup(provider)
       .then(function(result) {
+        console.log(result);
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         const token = result.credential.accessToken;
         // The signed-in user info.

@@ -20,23 +20,9 @@ const actions = {
       const profiles = [];
       snapshot.docChanges().forEach(change => {
         profiles.push({ id: change.doc.id, ...change.doc.data() });
-        /*   commit(types.UPDATE_PROFILES, {
-          id: change.doc.id,
-          ...change.doc.data(),
-        }); */
       });
       commit(types.SET_PROFILES, profiles);
     });
-    /*  db.collection("profiles")
-      .get()
-      .then(querySnapshot => {
-        const allProfiles = [];
-        querySnapshot.forEach(doc => {
-          console.log(doc.data());
-          allProfiles.push(_.merge({ id: doc.id, ...doc.data() }));
-        });
-        commit(types.SET_PROFILES, allProfiles);
-      }); */
   },
 
   createProfile({ commit }, payload) {
