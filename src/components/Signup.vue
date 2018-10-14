@@ -11,7 +11,7 @@
               Google<IconGoogle class="icon-normal icon-default icon-white"/>
             </button>
 
-            <button class="col-3 btn btn-secondary">
+            <button @click="handleSocialProviderClick('facebook')" class="col-3 btn btn-secondary">
               Facebook <IconFacebook class="icon icon-normal icon-inform"/>
             </button>
 
@@ -74,6 +74,7 @@ export default {
   methods: {
     ...mapActions({
       registerWithEmailAndPassword: "registerWithEmailAndPassword",
+      signUpWithFaceBook: "signUpWithFacebook",
     }),
     handleEmailSignup() {
       const email = this.$refs.signup_email.$el.firstChild.value;
@@ -82,6 +83,13 @@ export default {
 
       const payload = { email, password, password2 };
       this.registerWithEmailAndPassword(payload);
+    },
+    handleSocialProviderClick(provider) {
+      switch (provider) {
+        case "facebook": {
+          this.signUpWithFaceBook();
+        }
+      }
     },
   },
 };
