@@ -32,5 +32,8 @@ export default {
 body
   background rgba($app-blue 0.2)
 
+.text-center
+  text-align center
+
 
 </style>

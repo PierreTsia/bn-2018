@@ -17,12 +17,16 @@ const actions = {
   getUserProfile({ commit, dispatch }, profileId) {
     const profilesRef = db.collection("profiles");
     const query = profilesRef.where("userId", "==", profileId);
+    let docId;
     query
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           // doc.data() is never undefined for query doc snapshots
           console.log(doc.id, " => ", doc.data());
+          db.collection("profiles")
+            .doc(doc.id)
+            .update({ lastOnline: firebase.firestore.Timestamp.now() });
           commit(types.SET_USER_PROFILE, { id: doc.id, ...doc.data() });
         });
       })
@@ -30,7 +34,7 @@ const actions = {
         console.log("Error getting documents: ", error);
       });
   },
-  signUpWithGithub(){
+  signUpWithGithub() {
     const provider = new firebase.auth.GithubAuthProvider();
     firebase
       .auth()
@@ -43,7 +47,7 @@ const actions = {
           photoUrl: photoURL,
           userId: uid,
           email,
-          lastOnline: new Date(),
+          lastOnline: firebase.firestore.Timestamp.now(),
         };
         //commit current user
         commit(types.SET_CURRENT_USER, user);
@@ -54,7 +58,10 @@ const actions = {
             if (querySnapshot.empty) {
               dispatch(
                 "createProfile",
-                { ...user, registrationDate: new Date() },
+                {
+                  ...user,
+                  registrationDate: firebase.firestore.Timestamp.now(),
+                },
                 { root: true },
               );
             } else {
@@ -62,7 +69,6 @@ const actions = {
             }
           });
       });
-    
   },
   signUpWithGoogle({ commit, dispatch }) {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -77,7 +83,7 @@ const actions = {
           photoUrl: photoURL,
           userId: uid,
           email,
-          lastOnline: new Date(),
+          lastOnline: firebase.firestore.Timestamp.now(),
         };
         //commit current user
         commit(types.SET_CURRENT_USER, user);
@@ -88,7 +94,10 @@ const actions = {
             if (querySnapshot.empty) {
               dispatch(
                 "createProfile",
-                { ...user, registrationDate: new Date() },
+                {
+                  ...user,
+                  registrationDate: firebase.firestore.Timestamp.now(),
+                },
                 { root: true },
               );
             } else {
@@ -111,7 +120,7 @@ const actions = {
           photoUrl: photoURL,
           userId: uid,
           email,
-          lastOnline: new Date(),
+          lastOnline: firebase.firestore.Timestamp.now(),
         };
         //commit current user
         commit(types.SET_CURRENT_USER, user);
@@ -124,7 +133,10 @@ const actions = {
             if (querySnapshot.empty) {
               dispatch(
                 "createProfile",
-                { ...user, registrationDate: new Date() },
+                {
+                  ...user,
+                  registrationDate: firebase.firestore.Timestamp.now(),
+                },
                 { root: true },
               );
             } else {
@@ -157,7 +169,7 @@ const actions = {
         const newUser = {
           id: auth.user.uid,
         };
-
+        console.log();
         const profileData = {
           userId: auth.user.uid,
           email: auth.user.email,
@@ -167,8 +179,8 @@ const actions = {
           photoUrl: auth.photoUrl
             ? auth.photoUrl
             : "http://www.erickdyck.de/demo/dashboard/images/profile.gif",
-          registrationDate: new Date(),
-          lastOnline: new Date(),
+          registrationDate: firebase.firestore.Timestamp.now(),
+          lastOnline: firebase.firestore.Timestamp.now(),
         };
 
         dispatch("createProfile", profileData, { root: true });

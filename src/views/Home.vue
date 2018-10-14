@@ -26,9 +26,11 @@
         <div v-else>
           <Dashboard v-if="userProfile" :profile="userProfile"></Dashboard>
           <span v-else>loading</span><!-- TODO LOADING STATE AND COMPONENT -->
+          <DashboardMenuTabs></DashboardMenuTabs>
         </div>
 
-        
+
+    
 
 
 
@@ -46,6 +48,7 @@ import Login from "@/components/Login.vue";
 import Signup from "@/components/Signup.vue";
 import Navbar from "@/components/Navbar.vue";
 import Dashboard from "@/components/dashboard/Dashboard.vue";
+import DashboardMenuTabs from "@/components/dashboard/DashboardMenuTabs.vue";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -56,6 +59,7 @@ export default {
     Signup,
     Navbar,
     Dashboard,
+    DashboardMenuTabs,
   },
   data() {
     return {
