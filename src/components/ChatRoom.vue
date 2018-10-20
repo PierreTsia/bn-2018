@@ -1,12 +1,12 @@
 <template>
-<div>
-  <ChatMessage v-for="message in flatMessages" :key="message.id" :message="message"/>
-</div>
+  <div>
+    <ChatMessage v-for="message in flatMessages" :key="message.id" :message="message"></ChatMessage>
+  </div>
   
 </template>
 <script>
 import ChatMessage from "@/components/ChatMessage";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import _ from "lodash";
 export default {
   name: "ChatRoom",
@@ -14,9 +14,7 @@ export default {
     ChatMessage,
   },
   data() {
-    return {
-      message: "ChatRroomm Component",
-    };
+    return {};
   },
   methods: {
     ...mapActions({
@@ -27,11 +25,29 @@ export default {
   computed: {
     ...mapGetters({ allMessages: "allMessages" }),
     flatMessages() {
-      const messages = [];
+      return _.reduce(
+        this.allMessages,
+        (result, value, key) => {
+          result.push({ id: key, ...value });
+          return result;
+        },
+        [],
+      );
+      /*  const messages = [];
       _.forEach(this.allMessages, (value, key) => {
         messages.push({ id: key, ...value });
       });
-      return messages;
+      return messages; */
+    },
+  },
+  watch: {
+    allMessages: {
+      immediate: true,
+      deep: true,
+      handler(curr, before) {
+        console.log({ before });
+        console.log({ curr });
+      },
     },
   },
   mounted() {

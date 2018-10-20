@@ -15,9 +15,7 @@
       </span>
   </div>
   <div class="row tabsContent">
-    <keep-alive>
       <component :is="currentTabComponent"></component>
-    </keep-alive>
   </div>
   
  </div>

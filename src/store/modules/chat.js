@@ -4,7 +4,7 @@ import _ from "lodash";
 import db from "../../db";
 
 const state = {
-  messages: [],
+  messages: {},
 };
 
 const getters = {
@@ -19,9 +19,9 @@ const actions = {
       .collection("messages")
       .get()
       .then(querySnapshot => {
-        const messages = [];
+        const messages = {};
         querySnapshot.forEach(doc => {
-          messages.push({ id: doc.id, ...doc.data() });
+          messages[doc.id] = doc.data();
         });
         commit(types.SET_MESSAGES, messages);
       });
@@ -32,17 +32,17 @@ const actions = {
     const chatRoom = db.collection("chatroom");
     const mainRoom = chatRoom.doc("main");
     mainRoom.collection("messages").onSnapshot(snapshot => {
-      const newMessages = [];
-      const modifiedMessages = [];
+      const newMessages = {};
+      const modifiedMessages = {};
       snapshot.docChanges().forEach(change => {
-        console.log("change", change);
+        console.log("change", change.doc.id);
         switch (change.type) {
           case "added": {
-            newMessages.push({ id: change.doc.id, ...change.doc.data() });
+            newMessages[change.doc.id] = change.doc.data();
             break;
           }
           case "modified": {
-            modifiedMessages.push({ id: change.doc.id, ...change.doc.data() });
+            modifiedMessages[change.doc.id] = change.doc.data();
           }
         }
       });
@@ -56,9 +56,9 @@ const actions = {
   removeChatListener({ commit }) {
     const chatRoom = db.collection("chatroom");
     const mainRoom = chatRoom.doc("main");
-    const unsubscribe = mainRoom.collection("messages").onSnapshot(function() {
-      console.log("Unsuscribing to chatroom");
-    });
+    const unsubscribe = mainRoom
+      .collection("messages")
+      .onSnapshot(() => console.log("Unsuscribing to chatroom"));
     // ...
     // Stop listening to changes
     unsubscribe();
@@ -71,15 +71,10 @@ const mutations = {
     state.messages = messages;
   },
   [types.ADD_MESSAGE](state, messages) {
-    state.messages.push(messages);
+    state.messages = _.merge(state.messages, messages);
   },
   [types.UPDATE_MESSAGES](state, modifiedMessages) {
-    modifiedMessages.forEach(modifiedMessage => {
-      const foundIndex = state.messages.findIndex(
-        m => m.id == modifiedMessage.id,
-      );
-      state.messages[foundIndex] = modifiedMessage;
-    });
+    state.messages = _.merge(state.messages, modifiedMessages);
   },
 };
 export default {
